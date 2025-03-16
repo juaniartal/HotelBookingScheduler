@@ -17,6 +17,9 @@ func main() {
 	// Rutas
 	r.HandleFunc("/bookings", CreateBooking).Methods("POST")
 	r.HandleFunc("/bookings", GetBookings).Methods("GET")
+	r.HandleFunc("/bookings/{id}", GetBookingByID).Methods("GET")   // Agregado
+	r.HandleFunc("/bookings/{id}", UpdateBooking).Methods("PUT")    // Agregado
+	r.HandleFunc("/bookings/{id}", DeleteBooking).Methods("DELETE") // Agregado
 
 	// **Habilitar CORS**
 	corsHandler := handlers.CORS(

@@ -14,15 +14,22 @@ export default function BookingList() {
   }, []);
 
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Seguro que deseas eliminar esta reserva?")) return;
-
-    const res = await fetch(`/api/bookings/${id}`, { method: "DELETE" });
-    if (res.ok) {
-      setBookings((prev) => prev.filter((booking) => booking.id !== id));
-    } else {
-      console.error("Error al eliminar la reserva");
+    try {
+      const response = await fetch(`http://localhost:8080/bookings/${id}`, {
+        method: "DELETE",
+      });
+  
+      if (!response.ok) {
+        throw new Error("No se pudo eliminar la reserva");
+      }
+  
+      console.log("Reserva eliminada con éxito");
+    } catch (error) {
+      console.error("Error al eliminar la reserva", error);
     }
   };
+  
+  
 
   if (!bookings) {
     return <p>Cargando reservas...</p>;
