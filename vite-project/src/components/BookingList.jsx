@@ -35,6 +35,10 @@ export default function BookingList() {
     setEditingBooking(booking); // Cargar la reserva en edición
   };
 
+  const handleCancel = () => {
+    setEditingBooking(null); // Cerrar formulario sin cambios
+  };
+
   const handleUpdate = async (updatedBooking) => {
     try {
       const response = await fetch(`http://localhost:8080/bookings/${updatedBooking.id}`, {
@@ -54,44 +58,55 @@ export default function BookingList() {
     }
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("es-AR", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
   if (!bookings) return <p>Cargando reservas...</p>;
   if (bookings.length === 0) return <p>No hay reservas registradas.</p>;
 
   return (
     <div>
-      {editingBooking && (
+      {editingBooking ? (
         <BookingForm
           booking={editingBooking}
           onBookingAdded={() => setEditingBooking(null)} // Ocultar el formulario
           onUpdate={handleUpdate} // Pasamos la función de actualización
+          onCancel={handleCancel} // Pasamos la función de cancelar
         />
+      ) : (
+        <ul className="space-y-2">
+          {bookings.map((booking) => (
+            <li key={booking.id} className="border p-4 rounded-lg flex justify-between items-center">
+              <div>
+                <p className="font-bold">{booking.guest_name}</p>
+                <p>{formatDate(booking.check_in)} - {formatDate(booking.check_out)}</p>
+                <p>{booking.guests_count} personas - ${booking.price}</p>
+              </div>
+              <div>
+                <button
+                  onClick={() => handleEdit(booking)}
+                  className="bg-yellow-500 text-white px-3 py-1 mx-1 rounded"
+                >
+                  ✏️ Editar
+                </button>
+                <button
+                  onClick={() => handleDelete(booking.id)}
+                  className="bg-red-500 text-white px-3 py-1 rounded"
+                >
+                  🗑️ Eliminar
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
-
-      <ul className="space-y-2">
-        {bookings.map((booking) => (
-          <li key={booking.id} className="border p-4 rounded-lg flex justify-between items-center">
-            <div>
-              <p className="font-bold">{booking.guest_name}</p>
-              <p>{booking.check_in} - {booking.check_out}</p>
-              <p>{booking.guests_count} personas - ${booking.price}</p>
-            </div>
-            <div>
-              <button
-                onClick={() => handleEdit(booking)}
-                className="bg-yellow-500 text-white px-3 py-1 mx-1 rounded"
-              >
-                ✏️ Editar
-              </button>
-              <button
-                onClick={() => handleDelete(booking.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded"
-              >
-                🗑️ Eliminar
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }
