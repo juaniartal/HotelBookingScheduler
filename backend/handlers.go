@@ -134,7 +134,9 @@ func UpdateBooking(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err := db.Exec("UPDATE public.bookings SET guest_name = $1, check_in = $2, check_out = $3, guests_count = $4, price = $5 WHERE id = $6",
+	_, err := db.Exec(`UPDATE public.bookings 
+		SET guest_name=$1, check_in=$2, check_out=$3, guests_count=$4, price=$5 
+		WHERE id=$6`,
 		booking.GuestName, booking.CheckIn, booking.CheckOut, booking.GuestsCount, booking.Price, id)
 
 	if err != nil {

@@ -1,42 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function BookingForm({ onBookingAdded }) {
-  const [guestName, setGuestName] = useState("");
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [guestsCount, setGuestsCount] = useState(1);
-  const [price, setPrice] = useState("");
+function BookingForm({ booking, onBookingAdded, onUpdate }) {
+  const [guestName, setGuestName] = useState(booking?.guest_name || "");
+  const [checkIn, setCheckIn] = useState(booking?.check_in || "");
+  const [checkOut, setCheckOut] = useState(booking?.check_out || "");
+  const [guestsCount, setGuestsCount] = useState(booking?.guests_count || 1);
+  const [price, setPrice] = useState(booking?.price || "");
+
+  useEffect(() => {
+    if (booking) {
+      setGuestName(booking.guest_name);
+      setCheckIn(booking.check_in);
+      setCheckOut(booking.check_out);
+      setGuestsCount(booking.guests_count);
+      setPrice(booking.price);
+    }
+  }, [booking]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newBooking = {
+      id: booking?.id, // Si existe, es edición
       guest_name: guestName,
       check_in: checkIn,
       check_out: checkOut,
       guests_count: guestsCount,
-      price: price ? parseFloat(price) : 0, // 👈 Si está vacío, enviamos 0
+      price: price ? parseFloat(price) : 0,
     };
 
-    console.log("📤 Enviando reserva:", newBooking); // 👀 Ver qué se envía al backend
-
-    const res = await fetch("http://localhost:8080/bookings", { // 👈 URL correcta
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newBooking),
-    });
-
-    if (res.ok) {
-      onBookingAdded();
-      setGuestName("");
-      setCheckIn("");
-      setCheckOut("");
-      setGuestsCount(1);
-      setPrice("");
+    if (booking) {
+      await onUpdate(newBooking);
     } else {
-      const errorText = await res.text();
-      console.error("❌ Error al agregar reserva:", errorText);
-      alert(`Error: ${errorText}`); // 👈 Ver error exacto
+      const res = await fetch("http://localhost:8080/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newBooking),
+      });
+
+      if (res.ok) {
+        onBookingAdded();
+        setGuestName("");
+        setCheckIn("");
+        setCheckOut("");
+        setGuestsCount(1);
+        setPrice("");
+      } else {
+        const errorText = await res.text();
+        alert(`Error: ${errorText}`);
+      }
     }
   };
 
@@ -89,7 +101,7 @@ function BookingForm({ onBookingAdded }) {
       />
 
       <button className="bg-blue-500 text-white p-2 w-full">
-        Agregar Reserva
+        {booking ? "Actualizar Reserva" : "Agregar Reserva"}
       </button>
     </form>
   );
