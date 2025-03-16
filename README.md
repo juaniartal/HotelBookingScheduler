@@ -76,7 +76,7 @@ npm install
 
 This command grabs all the frontend dependencies defined in package.json. It's like getting your React app all dressed up for the party. 🎉
 
-###3.3. Start the Frontend Server
+### 3.3. Start the Frontend Server
 
 It’s go-time! To fire up the frontend development server, just run:
 
