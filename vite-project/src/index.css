@@ -1,43 +1,108 @@
 body {
   font-family: Arial, sans-serif;
+  background: url("/pinamar.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #000000;
   padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+label {
+  font-size: 1.2rem; /* Tamaño de fuente mayor */
+  font-weight: 600; /* Peso de fuente semi-negrita */
+  color: #ffffff; /* Blanco para buen contraste */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); /* Sombra de texto para mejorar legibilidad */
+  margin-bottom: 12px; /* Espacio debajo de los labels */
+  display: block; /* Asegura que los labels ocupen toda la línea */
+  letter-spacing: 1px; /* Espaciado entre letras para mayor claridad */
+  text-transform: uppercase; /* Convertir texto a mayúsculas */
+  background: linear-gradient(45deg, #00ff4c, #ffffff); /* Fondo de gradiente sutil */
+  -webkit-background-clip: text; /* Aplica el gradiente solo al texto */
+  color: transparent; /* Hace que el texto sea transparente, mostrando el gradiente */
+  padding: 5px 0; /* Agrega un poco de espacio alrededor del texto */
+  border-bottom: 3px solid #00ccff; /* Línea inferior para darle más énfasis */
+  transition: all 0.3s ease; /* Transición suave */
+}
+
+label:hover {
+  color: #ffffff; /* Cambiar el color a blanco al hacer hover */
+  transform: translateY(-2px); /* Efecto de desplazamiento hacia arriba */
+  border-color: #0056b3; /* Cambiar el color de la línea al hacer hover */
+}
+
+.container {
+  max-width: 600px;
+  width: 100%;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 36px; /* Aumenté el tamaño para que sea más destacado */
+  font-weight: 700; /* Aumenté el peso para darle más énfasis */
+  text-align: center;
+  color: #00ccff; /* Color brillante para que se destaque */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); /* Sombra de texto para hacerlo más visible */
+  margin-bottom: 30px; /* Aumento el margen para dar espacio debajo */
+  letter-spacing: 2px; /* Espaciado entre letras para que se vea más limpio */
+  padding: 10px; /* Espaciado alrededor del texto para darle aire */
+  border-radius: 8px; /* Bordes redondeados para un look más moderno */
+  background: linear-gradient(45deg, #00ff4c, #ffffff); /* Fondo con un gradiente atractivo */
+  -webkit-background-clip: text; /* Aplica el fondo solo al texto */
+  color: transparent; /* Hace el texto transparente para que se vea el gradiente */
+  transition: all 0.3s ease; /* Transición suave al pasar el mouse */
+}
+
+h1:hover {
+  transform: scale(1.05); /* Efecto de aumento cuando se pasa el mouse */
+  color: #fff; /* Cambiar color a blanco cuando se hace hover */
 }
 
 form {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 input, button {
-  display: block;
   width: 100%;
+  padding: 12px;
   margin-top: 10px;
-  padding: 10px;
   font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 button {
-  background-color: blue;
+  background-color: #007bff;
   color: white;
   border: none;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
 button:hover {
-  background-color: darkblue;
+  background-color: #0056b3;
 }
 
 ul {
   list-style: none;
   padding: 0;
+  margin-top: 20px;
 }
 
 li {
+  background: #fff;
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 15px;
   margin-top: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
