@@ -88,6 +88,7 @@ export default function BookingList() {
                 <p className="font-bold">{booking.guest_name}</p>
                 <p>{formatDate(booking.check_in)} - {formatDate(booking.check_out)}</p>
                 <p>{booking.guests_count} personas - ${booking.price}</p>
+                <p className="text-gray-600">Departamento: {booking.department || "No especificado"}</p> {/* Agregado el campo departamento */}
               </div>
               <div>
                 <button

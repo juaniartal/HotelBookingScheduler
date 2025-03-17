@@ -6,6 +6,7 @@ function BookingForm({ booking, onBookingAdded, onUpdate }) {
   const [checkOut, setCheckOut] = useState(booking?.check_out || "");
   const [guestsCount, setGuestsCount] = useState(booking?.guests_count || 1);
   const [price, setPrice] = useState(booking?.price || "");
+  const [department, setDepartment] = useState(booking?.department || ""); // Nuevo campo
 
   useEffect(() => {
     if (booking) {
@@ -14,6 +15,7 @@ function BookingForm({ booking, onBookingAdded, onUpdate }) {
       setCheckOut(booking.check_out);
       setGuestsCount(booking.guests_count);
       setPrice(booking.price);
+      setDepartment(booking.department || ""); // Asigna el departamento si existe
     }
   }, [booking]);
 
@@ -27,6 +29,7 @@ function BookingForm({ booking, onBookingAdded, onUpdate }) {
       check_out: checkOut,
       guests_count: guestsCount,
       price: price ? parseFloat(price) : 0,
+      department: department || null, // Guardar null si está vacío
     };
 
     if (booking) {
@@ -45,6 +48,7 @@ function BookingForm({ booking, onBookingAdded, onUpdate }) {
         setCheckOut("");
         setGuestsCount(1);
         setPrice("");
+        setDepartment(""); // Resetear el campo
       } else {
         const errorText = await res.text();
         alert(`Error: ${errorText}`);
@@ -97,6 +101,14 @@ function BookingForm({ booking, onBookingAdded, onUpdate }) {
         step="0.01"
         value={price}
         onChange={(e) => setPrice(e.target.value)}
+        className="border p-2 w-full"
+      />
+
+      <label>Departamento</label>
+      <input
+        type="text"
+        value={department}
+        onChange={(e) => setDepartment(e.target.value)}
         className="border p-2 w-full"
       />
 
