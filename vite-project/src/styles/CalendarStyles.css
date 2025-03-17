@@ -1,0 +1,82 @@
+/* Ajusta el tamaño del calendario */
+.react-calendar {
+    width: 100%;
+    font-size: 18px; /* Hace los textos más grandes */
+    background-color: white; /* Fondo blanco */
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Días de la semana */
+  .react-calendar__month-view__weekdays {
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    color: #333; /* Color oscuro para que se vea */
+  }
+  
+  /* Celdas del calendario */
+  .react-calendar__tile {
+    padding: 15px;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 5px;
+    color: #333; /* Asegurar que los números sean visibles */
+  }
+  
+  /* Día seleccionado */
+  .react-calendar__tile--active {
+    background: #2563eb !important;
+    color: white !important;
+    font-weight: bold;
+  }
+  
+  /* Día actual */
+  .react-calendar__tile--now {
+    background: #dbeafe;
+    font-weight: bold;
+    color: #000; /* Número negro */
+  }
+  
+  /* Selector de mes y año */
+  .react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .react-calendar__navigation button {
+    background: #2563eb;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    transition: 0.2s;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .react-calendar__navigation button:hover {
+    background: #1e40af;
+  }
+  
+  /* Corrige el selector de mes y año (que se veía en blanco) */
+  .react-calendar__year-view__months,
+  .react-calendar__decade-view__years,
+  .react-calendar__century-view__decades {
+    color: #333 !important;
+    font-size: 18px;
+  }
+  
+  .react-calendar__tile--hasActive {
+    background: #3b82f6;
+    color: white !important;
+    font-weight: bold;
+  }
+  .ocupado {
+    background: red !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 50%;
+  }
+  
