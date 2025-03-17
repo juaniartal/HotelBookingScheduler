@@ -12,9 +12,6 @@ This project allows you to manage hotel bookings with a backend built using Node
    - [Navigate to the Frontend Folder](#31-navigate-to-the-frontend-folder)
    - [Install Dependencies](#32-install-dependencies)
    - [Start the Frontend Server](#33-start-the-frontend-server)
-3. [How to Test the Application](#how-to-test-the-application)
-   - [Test the Backend (API)](#1-test-the-backend-api)
-4. [License](#license)
 
 ---
 
