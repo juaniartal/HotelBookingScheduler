@@ -11,7 +11,7 @@ import (
 )
 
 func GetBookings(w http.ResponseWriter, r *http.Request) {
-	rows, err := db.Query("SELECT id, guest_name, check_in, check_out, guests_count, price FROM public.bookings")
+	rows, err := db.Query("SELECT id, guest_name, check_in, check_out, guests_count, price, department FROM public.bookings")
 	if err != nil {
 		log.Println("❌ Error en la consulta a la base de datos:", err)
 		http.Error(w, fmt.Sprintf("Database error: %v", err), http.StatusInternalServerError)
@@ -23,8 +23,9 @@ func GetBookings(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		var booking Booking
 		var price sql.NullFloat64
+		var department sql.NullString
 
-		if err := rows.Scan(&booking.ID, &booking.GuestName, &booking.CheckIn, &booking.CheckOut, &booking.GuestsCount, &price); err != nil {
+		if err := rows.Scan(&booking.ID, &booking.GuestName, &booking.CheckIn, &booking.CheckOut, &booking.GuestsCount, &price, &department); err != nil {
 			log.Println("❌ Error escaneando datos:", err)
 			http.Error(w, fmt.Sprintf("Error scanning data: %v", err), http.StatusInternalServerError)
 			return
@@ -34,6 +35,12 @@ func GetBookings(w http.ResponseWriter, r *http.Request) {
 			booking.Price = &price.Float64
 		} else {
 			booking.Price = nil
+		}
+
+		if department.Valid {
+			booking.Department = department.String
+		} else {
+			booking.Department = "No especificado"
 		}
 
 		bookings = append(bookings, booking)
@@ -64,21 +71,8 @@ func CreateBooking(w http.ResponseWriter, r *http.Request) {
 		booking.Price = &defaultPrice
 	}
 
-	var count int
-	err := db.QueryRow("SELECT COUNT(*) FROM bookings WHERE (check_in, check_out) OVERLAPS ($1, $2)",
-		booking.CheckIn, booking.CheckOut).Scan(&count)
-	if err != nil {
-		log.Println("❌ Error al verificar disponibilidad:", err)
-		http.Error(w, "Error checking availability", http.StatusInternalServerError)
-		return
-	}
-	if count > 0 {
-		http.Error(w, "Date not available", http.StatusConflict)
-		return
-	}
-
-	_, err = db.Exec("INSERT INTO bookings (guest_name, check_in, check_out, guests_count, price) VALUES ($1, $2, $3, $4, $5)",
-		booking.GuestName, booking.CheckIn, booking.CheckOut, booking.GuestsCount, booking.Price)
+	_, err := db.Exec("INSERT INTO bookings (guest_name, check_in, check_out, guests_count, price, department) VALUES ($1, $2, $3, $4, $5, $6)",
+		booking.GuestName, booking.CheckIn, booking.CheckOut, booking.GuestsCount, booking.Price, booking.Department)
 
 	if err != nil {
 		log.Println("❌ Error al insertar la reserva:", err)
@@ -89,13 +83,14 @@ func CreateBooking(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(booking)
 }
+
 func GetBookingByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
 	var booking Booking
-	err := db.QueryRow("SELECT id, guest_name, check_in, check_out, guests_count, price FROM public.bookings WHERE id = $1", id).
-		Scan(&booking.ID, &booking.GuestName, &booking.CheckIn, &booking.CheckOut, &booking.GuestsCount, &booking.Price)
+	err := db.QueryRow("SELECT id, guest_name, check_in, check_out, guests_count, price, department FROM public.bookings WHERE id = $1", id).
+		Scan(&booking.ID, &booking.GuestName, &booking.CheckIn, &booking.CheckOut, &booking.GuestsCount, &booking.Price, &booking.Department)
 
 	if err != nil {
 		http.Error(w, "Booking not found", http.StatusNotFound)
@@ -130,9 +125,9 @@ func UpdateBooking(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_, err := db.Exec(`UPDATE public.bookings 
-		SET guest_name=$1, check_in=$2, check_out=$3, guests_count=$4, price=$5 
-		WHERE id=$6`,
-		booking.GuestName, booking.CheckIn, booking.CheckOut, booking.GuestsCount, booking.Price, id)
+		SET guest_name=$1, check_in=$2, check_out=$3, guests_count=$4, price=$5, department=$6 
+		WHERE id=$7`,
+		booking.GuestName, booking.CheckIn, booking.CheckOut, booking.GuestsCount, booking.Price, booking.Department, id)
 
 	if err != nil {
 		http.Error(w, "Error updating booking", http.StatusInternalServerError)
