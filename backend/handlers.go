@@ -11,7 +11,7 @@ import (
 )
 
 func GetBookings(w http.ResponseWriter, r *http.Request) {
-	rows, err := db.Query("SELECT id, guest_name, check_in, check_out, guests_count, price, department FROM public.bookings")
+	rows, err := db.Query("SELECT id, guest_name, check_in, check_out, guests_count, price, department FROM public.bookings WHERE deleted = FALSE")
 	if err != nil {
 		log.Println("❌ Error en la consulta a la base de datos:", err)
 		http.Error(w, fmt.Sprintf("Database error: %v", err), http.StatusInternalServerError)
@@ -71,7 +71,7 @@ func CreateBooking(w http.ResponseWriter, r *http.Request) {
 		booking.Price = &defaultPrice
 	}
 
-	_, err := db.Exec("INSERT INTO bookings (guest_name, check_in, check_out, guests_count, price, department) VALUES ($1, $2, $3, $4, $5, $6)",
+	_, err := db.Exec("INSERT INTO bookings (guest_name, check_in, check_out, guests_count, price, department, deleted) VALUES ($1, $2, $3, $4, $5, $6, FALSE)",
 		booking.GuestName, booking.CheckIn, booking.CheckOut, booking.GuestsCount, booking.Price, booking.Department)
 
 	if err != nil {
@@ -89,7 +89,7 @@ func GetBookingByID(w http.ResponseWriter, r *http.Request) {
 	id := vars["id"]
 
 	var booking Booking
-	err := db.QueryRow("SELECT id, guest_name, check_in, check_out, guests_count, price, department FROM public.bookings WHERE id = $1", id).
+	err := db.QueryRow("SELECT id, guest_name, check_in, check_out, guests_count, price, department FROM public.bookings WHERE id = $1 AND deleted = FALSE", id).
 		Scan(&booking.ID, &booking.GuestName, &booking.CheckIn, &booking.CheckOut, &booking.GuestsCount, &booking.Price, &booking.Department)
 
 	if err != nil {
@@ -105,13 +105,13 @@ func DeleteBooking(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	_, err := db.Exec("DELETE FROM public.bookings WHERE id = $1", id)
+	_, err := db.Exec("UPDATE public.bookings SET deleted = TRUE WHERE id = $1", id)
 	if err != nil {
-		http.Error(w, "Error deleting booking", http.StatusInternalServerError)
+		http.Error(w, "Error al eliminar la reserva", http.StatusInternalServerError)
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	w.WriteHeader(http.StatusOK)
 }
 
 func UpdateBooking(w http.ResponseWriter, r *http.Request) {
@@ -126,7 +126,7 @@ func UpdateBooking(w http.ResponseWriter, r *http.Request) {
 
 	_, err := db.Exec(`UPDATE public.bookings 
 		SET guest_name=$1, check_in=$2, check_out=$3, guests_count=$4, price=$5, department=$6 
-		WHERE id=$7`,
+		WHERE id=$7 AND deleted = FALSE`,
 		booking.GuestName, booking.CheckIn, booking.CheckOut, booking.GuestsCount, booking.Price, booking.Department, id)
 
 	if err != nil {

@@ -8,4 +8,6 @@ type Booking struct {
 	GuestsCount int      `json:"guests_count"`
 	Price       *float64 `json:"price"`
 	Department  string   `json:"department"`
+	Deleted     bool     `json:"deleted"` // Nuevo campo
+
 }
