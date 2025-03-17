@@ -12,7 +12,7 @@ var db *sql.DB
 func ConnectDatabase() {
 	var err error
 	connStr := "user=postgres password=JuanDomingoPeron dbname=renata search_path=public sslmode=disable"
-	db, err = sql.Open("postgres", connStr) // 👈 Usa "=" para evitar redeclarar
+	db, err = sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatalf("❌ Error al conectar a la base de datos: %v", err)
 	}

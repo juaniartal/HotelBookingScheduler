@@ -11,24 +11,21 @@ import (
 func main() {
 	ConnectDatabase()
 
-	// Crear router
 	r := mux.NewRouter()
 
 	// Rutas
 	r.HandleFunc("/bookings", CreateBooking).Methods("POST")
 	r.HandleFunc("/bookings", GetBookings).Methods("GET")
-	r.HandleFunc("/bookings/{id}", GetBookingByID).Methods("GET")   // Agregado
-	r.HandleFunc("/bookings/{id}", UpdateBooking).Methods("PUT")    // Agregado
-	r.HandleFunc("/bookings/{id}", DeleteBooking).Methods("DELETE") // Agregado
+	r.HandleFunc("/bookings/{id}", GetBookingByID).Methods("GET")
+	r.HandleFunc("/bookings/{id}", UpdateBooking).Methods("PUT")
+	r.HandleFunc("/bookings/{id}", DeleteBooking).Methods("DELETE")
 
-	// **Habilitar CORS**
 	corsHandler := handlers.CORS(
-		handlers.AllowedOrigins([]string{"http://localhost:5173"}), // Permitir frontend
+		handlers.AllowedOrigins([]string{"http://localhost:5173"}),
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
 		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
 	)
 
-	// Iniciar servidor con CORS
 	log.Println("🚀 Servidor corriendo en http://localhost:8080")
 	http.ListenAndServe(":8080", corsHandler(r))
 }

@@ -22,7 +22,7 @@ func GetBookings(w http.ResponseWriter, r *http.Request) {
 	var bookings []Booking
 	for rows.Next() {
 		var booking Booking
-		var price sql.NullFloat64 // ✅ Manejo de valores NULL
+		var price sql.NullFloat64
 
 		if err := rows.Scan(&booking.ID, &booking.GuestName, &booking.CheckIn, &booking.CheckOut, &booking.GuestsCount, &price); err != nil {
 			log.Println("❌ Error escaneando datos:", err)
@@ -46,17 +46,14 @@ func GetBookings(w http.ResponseWriter, r *http.Request) {
 func CreateBooking(w http.ResponseWriter, r *http.Request) {
 	var booking Booking
 
-	// Decodificar JSON
 	if err := json.NewDecoder(r.Body).Decode(&booking); err != nil {
 		log.Println("❌ Error decodificando JSON:", err)
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
 		return
 	}
 
-	// 📌 Ver los datos que llegan al backend
 	log.Printf("📥 Reserva recibida: %+v\n", booking)
 
-	// Validar fechas
 	if booking.CheckIn == "" || booking.CheckOut == "" {
 		http.Error(w, "Missing check-in or check-out date", http.StatusBadRequest)
 		return
@@ -67,7 +64,6 @@ func CreateBooking(w http.ResponseWriter, r *http.Request) {
 		booking.Price = &defaultPrice
 	}
 
-	// Verificar disponibilidad de fechas
 	var count int
 	err := db.QueryRow("SELECT COUNT(*) FROM bookings WHERE (check_in, check_out) OVERLAPS ($1, $2)",
 		booking.CheckIn, booking.CheckOut).Scan(&count)
@@ -81,7 +77,6 @@ func CreateBooking(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Insertar la reserva en la base de datos
 	_, err = db.Exec("INSERT INTO bookings (guest_name, check_in, check_out, guests_count, price) VALUES ($1, $2, $3, $4, $5)",
 		booking.GuestName, booking.CheckIn, booking.CheckOut, booking.GuestsCount, booking.Price)
 
