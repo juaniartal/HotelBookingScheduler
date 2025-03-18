@@ -1,9 +1,9 @@
 # Hotel Booking Scheduler
 
-This project allows you to manage hotel bookings with a backend built using Node.js and Express, and a frontend built with React and Vite.
+This project allows you to manage hotel bookings with a backend built using Golang, and a frontend built with React and Vite.
 
 ## Table of Contents
-1. [Backend (Node.js + Express)](#2-backend-nodejs--express)
+1. [Backend (Golang)](#2-backend-nodejs--express)
    - [Navigate to the Backend Folder](#21-navigate-to-the-backend-folder)
    - [Install Dependencies](#22-install-dependencies)
    - [Configure Environment Variables](#23-configure-environment-variables)
