@@ -71,8 +71,11 @@ func CreateBooking(w http.ResponseWriter, r *http.Request) {
 		booking.Price = &defaultPrice
 	}
 
-	_, err := db.Exec("INSERT INTO bookings (guest_name, check_in, check_out, guests_count, price, department, deleted) VALUES ($1, $2, $3, $4, $5, $6, FALSE)",
-		booking.GuestName, booking.CheckIn, booking.CheckOut, booking.GuestsCount, booking.Price, booking.Department)
+	_, err := db.Exec(
+		"INSERT INTO bookings (guest_name, check_in, check_out, guests_count, price, department, has_vehicle, license_plate, car_brand, is_4x4, deleted) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, FALSE)",
+		booking.GuestName, booking.CheckIn, booking.CheckOut, booking.GuestsCount, booking.Price, booking.Department,
+		booking.HasVehicle, booking.LicensePlate, booking.CarBrand, booking.Is4x4,
+	)
 
 	if err != nil {
 		log.Println("❌ Error al insertar la reserva:", err)
@@ -124,10 +127,11 @@ func UpdateBooking(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err := db.Exec(`UPDATE public.bookings 
-		SET guest_name=$1, check_in=$2, check_out=$3, guests_count=$4, price=$5, department=$6 
-		WHERE id=$7 AND deleted = FALSE`,
-		booking.GuestName, booking.CheckIn, booking.CheckOut, booking.GuestsCount, booking.Price, booking.Department, id)
+	_, err := db.Exec(
+		"UPDATE bookings SET guest_name=$1, check_in=$2, check_out=$3, guests_count=$4, price=$5, department=$6, has_vehicle=$7, license_plate=$8, car_brand=$9, is_4x4=$10 WHERE id=$11 AND deleted = FALSE",
+		booking.GuestName, booking.CheckIn, booking.CheckOut, booking.GuestsCount, booking.Price, booking.Department,
+		booking.HasVehicle, booking.LicensePlate, booking.CarBrand, booking.Is4x4, id,
+	)
 
 	if err != nil {
 		http.Error(w, "Error updating booking", http.StatusInternalServerError)
