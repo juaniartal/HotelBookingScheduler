@@ -6,7 +6,12 @@ function BookingForm({ booking, onBookingAdded, onUpdate }) {
   const [checkOut, setCheckOut] = useState(booking?.check_out || "");
   const [guestsCount, setGuestsCount] = useState(booking?.guests_count || 1);
   const [price, setPrice] = useState(booking?.price || "");
-  const [department, setDepartment] = useState(booking?.department || ""); // Nuevo campo
+  const [department, setDepartment] = useState(booking?.department || "");
+
+  const [hasVehicle, setHasVehicle] = useState(booking?.has_vehicle || false);
+  const [licensePlate, setLicensePlate] = useState(booking?.license_plate || "");
+  const [carBrand, setCarBrand] = useState(booking?.car_brand || "");
+  const [is4x4, setIs4x4] = useState(booking?.is_4x4 || false);
 
   useEffect(() => {
     if (booking) {
@@ -15,7 +20,11 @@ function BookingForm({ booking, onBookingAdded, onUpdate }) {
       setCheckOut(booking.check_out);
       setGuestsCount(booking.guests_count);
       setPrice(booking.price);
-      setDepartment(booking.department || ""); // Asigna el departamento si existe
+      setDepartment(booking.department || "");
+      setHasVehicle(booking.has_vehicle || false);
+      setLicensePlate(booking.license_plate || "");
+      setCarBrand(booking.car_brand || "");
+      setIs4x4(booking.is_4x4 || false);
     }
   }, [booking]);
 
@@ -23,13 +32,17 @@ function BookingForm({ booking, onBookingAdded, onUpdate }) {
     e.preventDefault();
 
     const newBooking = {
-      id: booking?.id, // Si existe, es edición
+      id: booking?.id,
       guest_name: guestName,
       check_in: checkIn,
       check_out: checkOut,
       guests_count: guestsCount,
       price: price ? parseFloat(price) : 0,
-      department: department || null, // Guardar null si está vacío
+      department: department || null,
+      has_vehicle: hasVehicle,
+      license_plate: hasVehicle ? licensePlate : null,
+      car_brand: hasVehicle ? carBrand : null,
+      is_4x4: hasVehicle ? is4x4 : false,
     };
 
     if (booking) {
@@ -48,7 +61,11 @@ function BookingForm({ booking, onBookingAdded, onUpdate }) {
         setCheckOut("");
         setGuestsCount(1);
         setPrice("");
-        setDepartment(""); // Resetear el campo
+        setDepartment("");
+        setHasVehicle(false);
+        setLicensePlate("");
+        setCarBrand("");
+        setIs4x4(false);
       } else {
         const errorText = await res.text();
         alert(`Error: ${errorText}`);
@@ -59,62 +76,44 @@ function BookingForm({ booking, onBookingAdded, onUpdate }) {
   return (
     <form onSubmit={handleSubmit} className="my-4 space-y-2">
       <label>Nombre del huésped</label>
-      <input
-        type="text"
-        value={guestName}
-        onChange={(e) => setGuestName(e.target.value)}
-        className="border p-2 w-full"
-        required
-      />
+      <input type="text" value={guestName} onChange={(e) => setGuestName(e.target.value)} className="border p-2 w-full" required />
 
       <label>Fecha de Check-In</label>
-      <input
-        type="date"
-        value={checkIn}
-        onChange={(e) => setCheckIn(e.target.value)}
-        className="border p-2 w-full"
-        required
-      />
+      <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} className="border p-2 w-full" required />
 
       <label>Fecha de Check-Out</label>
-      <input
-        type="date"
-        value={checkOut}
-        onChange={(e) => setCheckOut(e.target.value)}
-        className="border p-2 w-full"
-        required
-      />
+      <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} className="border p-2 w-full" required />
 
       <label>Cantidad de Personas</label>
-      <input
-        type="number"
-        value={guestsCount}
-        onChange={(e) => setGuestsCount(parseInt(e.target.value))}
-        className="border p-2 w-full"
-        required
-        min="1"
-      />
+      <input type="number" value={guestsCount} onChange={(e) => setGuestsCount(parseInt(e.target.value))} className="border p-2 w-full" required min="1" />
 
       <label>Precio ($)</label>
-      <input
-        type="number"
-        step="0.01"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        className="border p-2 w-full"
-      />
+      <input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} className="border p-2 w-full" />
 
       <label>Departamento</label>
-      <input
-        type="text"
-        value={department}
-        onChange={(e) => setDepartment(e.target.value)}
-        className="border p-2 w-full"
-      />
+      <input type="text" value={department} onChange={(e) => setDepartment(e.target.value)} className="border p-2 w-full" />
 
-      <button className="bg-blue-500 text-white p-2 w-full">
-        {booking ? "Actualizar Reserva" : "Agregar Reserva"}
-      </button>
+      <label>
+        <input type="checkbox" checked={hasVehicle} onChange={(e) => setHasVehicle(e.target.checked)} className="mr-2" />
+        ¿Tiene vehículo?
+      </label>
+
+      {hasVehicle && (
+        <>
+          <label>Patente del vehículo</label>
+          <input type="text" value={licensePlate} onChange={(e) => setLicensePlate(e.target.value)} className="border p-2 w-full" />
+
+          <label>Marca del auto</label>
+          <input type="text" value={carBrand} onChange={(e) => setCarBrand(e.target.value)} className="border p-2 w-full" />
+
+          <label>
+            <input type="checkbox" checked={is4x4} onChange={(e) => setIs4x4(e.target.checked)} className="mr-2" />
+            ¿Es 4x4?
+          </label>
+        </>
+      )}
+
+      <button className="bg-blue-500 text-white p-2 w-full">{booking ? "Actualizar Reserva" : "Agregar Reserva"}</button>
     </form>
   );
 }
