@@ -39,7 +39,7 @@ jobs:
   frontend:
     name: Install & Test Frontend
     runs-on: ubuntu-latest
-    needs: backend  # Ejecutar solo si el backend pasa los tests
+    needs: backend  # Ejecutar solo si el backend pasa los tests s
 
     steps:
       - name: Checkout del código
