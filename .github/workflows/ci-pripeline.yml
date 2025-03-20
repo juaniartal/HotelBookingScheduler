@@ -20,7 +20,7 @@ jobs:
       - name: Configurar Go
         uses: actions/setup-go@v4
         with:
-          go-version: 1.21  # Usa la versión de Go que estés usando
+          go-version: 1.24  
 
       - name: Descargar dependencias
         working-directory: backend
@@ -33,13 +33,13 @@ jobs:
       - name: Ejecutar tests backend
         working-directory: backend
         env:
-          DB_ENV: test  # Configuramos el entorno de prueba para que se use la DB de test
+          DB_ENV: test  
         run: go test -v ./...
 
   frontend:
     name: Install & Test Frontend
     runs-on: ubuntu-latest
-    needs: backend  # Ejecutar solo si el backend pasa los tests s
+    needs: backend  
 
     steps:
       - name: Checkout del código
