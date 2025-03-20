@@ -21,7 +21,6 @@ function BookingCalendar({ bookings = [], onBack }) {
       : null;
   };
   
-
   const bookingsForDate = bookings?.filter(({ check_in, check_out }) => {
     const checkIn = new Date(check_in);
     const checkOut = new Date(check_out);
@@ -35,7 +34,6 @@ function BookingCalendar({ bookings = [], onBack }) {
     <div className="container mx-auto p-5">
       <h2 className="text-2xl font-bold mb-4 text-center">📅 Calendario de Reservas</h2>
 
-      {}
       <div className="flex flex-col items-center">
         <Calendar
           onChange={setSelectedDate}
@@ -48,7 +46,6 @@ function BookingCalendar({ bookings = [], onBack }) {
         </p>
       </div>
 
-      {}
       <div className="mt-6">
         <h3 className="text-xl font-semibold text-center">
           Reservas para el {selectedDate.toLocaleDateString("es-AR")}:
@@ -58,7 +55,7 @@ function BookingCalendar({ bookings = [], onBack }) {
           <p className="text-center text-gray-600 mt-2">No hay reservas para esta fecha.</p>
         ) : (
           <ul className="space-y-3 mt-4">
-            {bookingsForDate.map(({ id, guest_name, check_in, check_out, guests_count, price, department, has_vehicle, car_brand, license_plate, is_4x4 }) => {
+            {bookingsForDate.map(({ id, guest_name, check_in, check_out, check_in_time, check_out_time, guests_count, price, department, has_vehicle, car_brand, license_plate, is_4x4 }) => {
               const checkInDate = new Date(check_in).toDateString();
               const isCheckInToday = checkInDate === selectedDate.toDateString();
 
@@ -70,11 +67,10 @@ function BookingCalendar({ bookings = [], onBack }) {
                   }`}
                 >
                   <p className="text-lg font-bold">🛎️ {guest_name}</p>
-                  <p>📅 {formatDate(check_in)} - {formatDate(check_out)}</p>
+                  <p>📅 {formatDate(check_in)} {check_in_time && `(${check_in_time})`} - {formatDate(check_out)} {check_out_time && `(${check_out_time})`}</p>
                   <p>👥 {guests_count} personas - 💲{price}</p>
                   <p>🏨 Departamento: {department || "No especificado"}</p>
 
-                  {}
                   {has_vehicle && (
                     <div className="mt-2 p-2 bg-blue-700 rounded">
                       <p>🚗 Vehículo: {car_brand} ({license_plate}) {is_4x4 && "🛻 4x4"}</p>
@@ -90,10 +86,7 @@ function BookingCalendar({ bookings = [], onBack }) {
       </div>
 
       <div className="flex justify-center mt-6">
-        <button
-          onClick={onBack}
-          className="bg-blue-700 text-white p-2 rounded shadow-md hover:bg-blue-900"
-        >
+        <button onClick={onBack} className="bg-blue-700 text-white p-2 rounded shadow-md hover:bg-blue-900">
           🔙 Volver
         </button>
       </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; 
 import BookingForm from "./BookingForm";
 
 export default function BookingList() {
@@ -68,13 +68,16 @@ export default function BookingList() {
                 🏨 {booking.department || "Sin especificar"}
               </p>
               <p className="text-sm text-gray-600">
-                📅 {booking.check_in} → {booking.check_out}
-              </p>
+  📅 {new Date(booking.check_in).toLocaleDateString()} 
+  {booking.check_in_time && ` (${new Date(booking.check_in_time).toLocaleTimeString()})`} → 
+  {new Date(booking.check_out).toLocaleDateString()} 
+  {booking.check_out_time && ` (${new Date(booking.check_out_time).toLocaleTimeString()})`}
+</p>
+
               <p className="text-sm text-gray-600">
                 👥 {booking.guests_count} personas - 💰 ${booking.price}
               </p>
 
-              {}
               {booking.has_vehicle && (
                 <div className="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
                   <p className="text-blue-700 font-semibold">🚗 Vehículo</p>
