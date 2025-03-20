@@ -9,7 +9,8 @@ require (
 )
 
 require (
-	github.com/felixge/httpsnoop v1.0.4 
-	github.com/joho/godotenv v1.5.1 
+	github.com/joho/godotenv v1.5.1
 
 )
+
+require github.com/felixge/httpsnoop v1.0.4 // indirect

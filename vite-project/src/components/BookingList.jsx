@@ -74,7 +74,7 @@ export default function BookingList() {
                 👥 {booking.guests_count} personas - 💰 ${booking.price}
               </p>
 
-              {/* Mostrar info del vehículo si el huésped tiene */}
+              {}
               {booking.has_vehicle && (
                 <div className="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
                   <p className="text-blue-700 font-semibold">🚗 Vehículo</p>

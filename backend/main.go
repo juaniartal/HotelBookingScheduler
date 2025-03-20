@@ -13,7 +13,6 @@ func main() {
 
 	r := mux.NewRouter()
 
-	// Rutas
 	r.HandleFunc("/bookings", CreateBooking).Methods("POST")
 	r.HandleFunc("/bookings", GetBookings).Methods("GET")
 	r.HandleFunc("/bookings/{id}", GetBookingByID).Methods("GET")

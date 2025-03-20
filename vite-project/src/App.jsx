@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import BookingForm from "./components/BookingForm";
 import BookingList from "./components/BookingList";
-import BookingCalendar from "./components/BookingCalendar"; // Importar el calendario
+import BookingCalendar from "./components/BookingCalendar"; 
 import "./styles/CalendarStyles.css";
 
 function App() {
   const [bookings, setBookings] = useState([]);
-  const [view, setView] = useState("list"); // Estado para alternar vistas
+  const [view, setView] = useState("list"); 
 
   const fetchBookings = () => {
     fetch("http://localhost:8080/bookings")
