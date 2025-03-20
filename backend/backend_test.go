@@ -7,7 +7,7 @@ import (
 
 func TestServer(t *testing.T) {
 	// Aquí asumes que el servidor se ejecuta en localhost:8080
-	resp, err := http.Get("http://localhost:8080") // Cambia esta URL si tu servidor está en otro puerto
+	resp, err := http.Get("http://localhost/bookings:8080") // Cambia esta URL si tu servidor está en otro puerto
 	if err != nil {
 		t.Fatalf("Failed to make GET request: %v", err)
 	}
