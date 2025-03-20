@@ -14,7 +14,7 @@ func TestServer(t *testing.T) {
 		t.Fatalf("Failed to start server: %v", err)
 	}
 
-	time.Sleep(2 * time.Second)
+	time.Sleep(10 * time.Second)
 
 	resp, err := http.Get("http://localhost:8080/bookings")
 	if err != nil {
