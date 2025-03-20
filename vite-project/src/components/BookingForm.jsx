@@ -94,8 +94,8 @@ function BookingForm({ booking, onBookingAdded, onUpdate }) {
       <input type="text" value={department} onChange={(e) => setDepartment(e.target.value)} className="border p-2 w-full" />
 
       <label>
-        <input type="checkbox" checked={hasVehicle} onChange={(e) => setHasVehicle(e.target.checked)} className="mr-2" />
-        ¿Tiene vehículo?
+      ¿Tiene vehículo?
+       <input type="checkbox" checked={hasVehicle} onChange={(e) => setHasVehicle(e.target.checked)} className="mr-2" />
       </label>
 
       {hasVehicle && (
@@ -107,8 +107,8 @@ function BookingForm({ booking, onBookingAdded, onUpdate }) {
           <input type="text" value={carBrand} onChange={(e) => setCarBrand(e.target.value)} className="border p-2 w-full" />
 
           <label>
+          ¿Es 4x4?
             <input type="checkbox" checked={is4x4} onChange={(e) => setIs4x4(e.target.checked)} className="mr-2" />
-            ¿Es 4x4?
           </label>
         </>
       )}

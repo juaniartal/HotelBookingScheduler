@@ -53,7 +53,7 @@ export default function BookingList() {
   };
 
   if (!bookings) return <p>Cargando reservas...</p>;
-  if (bookings.length === 0) return <p>No hay reservas registradas.</p>;
+  if (bookings.length === 0) return <p className="no-reservations">No hay reservas registradas.</p>;
 
   return (
     <div className="max-w-3xl mx-auto mt-6">
