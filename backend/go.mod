@@ -8,4 +8,7 @@ require (
 	github.com/lib/pq v1.10.9
 )
 
-require github.com/felixge/httpsnoop v1.0.4 // indirect
+require (
+	github.com/felixge/httpsnoop v1.0.4 // indirect
+	github.com/mattn/go-sqlite3 v1.14.24 // indirect
+)

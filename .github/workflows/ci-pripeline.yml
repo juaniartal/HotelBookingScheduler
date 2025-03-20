@@ -26,6 +26,8 @@ jobs:
 
       - name: Ejecutar tests backend
         working-directory: backend
+        env:
+          DB_ENV: test  # Configuramos el entorno de prueba para que se use la DB de test
         run: go test -v ./...
 
   frontend:
