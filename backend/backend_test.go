@@ -8,7 +8,7 @@ import (
 )
 
 func TestServer(t *testing.T) {
-	cmd := exec.Command("go run main.go database.go handlers.go routes.go models.go")
+	cmd := exec.Command("go", "run", "main.go", "database.go", "handlers.go", "routes.go", "models.go")
 	err := cmd.Start()
 	if err != nil {
 		t.Fatalf("Failed to start server: %v", err)
