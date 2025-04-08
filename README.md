@@ -3,7 +3,7 @@
 This project allows you to manage hotel bookings with a backend built using Golang, and a frontend built with React and Vite.
 
 ## Table of Contents
-1. [Backend (Golang)](#2-backend-nodejs--express)
+1. [Backend (Golang)](#2-backend-Golang)
    - [Navigate to the Backend Folder](#21-navigate-to-the-backend-folder)
    - [Install Dependencies](#22-install-dependencies)
    - [Configure Environment Variables](#23-configure-environment-variables)
@@ -15,7 +15,7 @@ This project allows you to manage hotel bookings with a backend built using Gola
 
 ---
 
-## 2. Backend (Node.js + Express)
+## 2. Backend (Golang)
 
 ### 2.1. Navigate to the Backend Folder
 
