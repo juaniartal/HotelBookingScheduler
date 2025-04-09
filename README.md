@@ -1,89 +1,81 @@
-# Hotel Booking Scheduler
+# Booking Scheduler
 
-This project allows you to manage hotel bookings with a backend built using Golang, and a frontend built with React and Vite.
-
-## Table of Contents
-1. [Backend (Golang)](#2-backend-Golang)
-   - [Navigate to the Backend Folder](#21-navigate-to-the-backend-folder)
-   - [Install Dependencies](#22-install-dependencies)
-   - [Configure Environment Variables](#23-configure-environment-variables)
-   - [Start the Backend Server](#24-start-the-backend-server)
-2. [Frontend (React + Vite)](#3-frontend-react--vite)
-   - [Navigate to the Frontend Folder](#31-navigate-to-the-frontend-folder)
-   - [Install Dependencies](#32-install-dependencies)
-   - [Start the Frontend Server](#33-start-the-frontend-server)
+This is a personal project built with the main goal of learning as much as possible about **Golang**. It’s a hotel booking scheduler app with a backend built in Go and a simple frontend using React (JSX + NPM), mainly to test the backend functionality. The backend connects to a **PostgreSQL** database to manage booking information.
 
 ---
 
-## 2. Backend (Golang)
+## 🚀 Project Goal
 
-### 2.1. Navigate to the Backend Folder
+This project was created as a personal challenge to:
 
-First, navigate to the `backend` directory:
+- Learn how to build and structure a professional backend using Go.
+- Build and expose REST APIs using Golang.
+- Integrate a PostgreSQL relational database.
+- Quickly test backend functionality with a minimal React frontend.
 
-```bash
-cd backend
+---
 
-```
+## ⚙️ Technologies Used
 
-### 2.2. Install Dependencies
-You need all those juicy backend dependencies? Don’t worry, we got you covered. Just run:
+### Backend
+- 🐹 **Golang**
+- 📦 Libraries such as `net/http`, `mux`, and `sqlx`
+- 🐘 **PostgreSQL** database
+- ✅ Unit testing
 
-```bash
-npm install
+### Frontend
+- ⚛️ **React** (JSX)
+- 📦 NPM
+- 🧪 Simple forms to test API endpoints
 
-```
-This command will install everything defined in the package.json file in the backend directory. It's like grocery shopping, but for your codebase. 🛒
+---
 
-
-### 2.3. Configure Environment Variables
-
-Create a .env file in the backend folder and configure the required variables. You can use the .env.example file as a reference for the environment variables. Make sure to set up any database credentials, API keys, or other configurations required by your application.
-
-###2.4. Start the Backend Server
-
-Ready to turn on the magic? Run the following to start the backend server:
-
-```bash
-
-npm start
-```
-The backend will be available at http://localhost:8080 (or the port configured in the .env file).
-
-## 3. Frontend (React + Vite)
-
-###3.1. Navigate to the Frontend Folder
-
-Now, let’s switch gears and head to the frontend directory. Don’t worry, it's just a different folder. 🚗💨
+## 📁 Project Structure
 
 ```bash
-
-cd frontend
-
+HotelBookingScheduler/
+├── backend/                # Golang backend source code
+├── vite-project/           # React frontend (Vite-based)
+├── docker-compose.yml      # Docker Compose configuration
+├── .gitignore              # Git ignore rules
+├── LICENSE                 # Project license
+└── README.md               # This file
 ```
 
-### 3.2. Install Dependencies
-You didn't think the frontend would just work on its own, did you? You gotta install the necessary dependencies, too!
+## SETUP
+
+### Prerequisites
+
+- Go installed on your system.
+- A running and accessible PostgreSQL instance.
+
+### Steps
+
+- Clone the repository:
+  
+ ```bash
+git clone https://github.com/juaniartal/HotelBookingScheduler.git
+cd HotelBookingScheduler/backend
+```
+
+- Install dependencies:
+ 
+```bash
+go moD download
+```
+
+- Create a .env file:
 
 ```bash
-
-npm install
-
+DB_HOST=localhost
+DB_PORT=your_port
+DB_USER=your_user
+DB_PASSWORD=your_password
+DB_NAME=your_database_name
 ```
 
-This command grabs all the frontend dependencies defined in package.json. It's like getting your React app all dressed up for the party. 🎉
+## CI-CD🔄
 
-### 3.3. Start the Frontend Server
-
-It’s go-time! To fire up the frontend development server, just run:
-
-
-```bash
-
-npm run dev
-
-
-```
-
-The frontend will be live at http://localhost:(PORT IN TERMINAL OUTPUT).
+The project includes a GitHub Actions pipeline that runs on every push to the repository.
+The pipeline is currently set to run backend tests, but it's still a work in progress and needs to be fully functional.
 
